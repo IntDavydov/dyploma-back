@@ -54,13 +54,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # 1. Authenticate to Google Cloud using Workload Identity Federation
+    # 1. Authenticate to Google Cloud using a Service Account JSON Key
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v2'
       with:
-        workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g., projects/123/locations/global/workloadIdentityPools/github/providers/my-repo
-        service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'     # e.g., my-service-account@my-project.iam.gserviceaccount.com
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
     # 2. Setup Docker for Artifact Registry (GCR is deprecated, GAR is the modern standard)
     - name: 'Set up Cloud SDK'
