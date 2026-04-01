@@ -84,7 +84,6 @@ jobs:
         region: '${{ env.REGION }}'
         image: '${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}'
         env_vars: |
-          PORT=3001
           DATABASE_URL=${{ secrets.NEON_DATABASE_URL }}
         flags: '--allow-unauthenticated'
 
