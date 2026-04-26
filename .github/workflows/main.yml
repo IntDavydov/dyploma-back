@@ -9,9 +9,9 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GAR_LOCATION: europe-west4
-  REPOSITORY: shopsync
-  IMAGE_NAME: shop-sync-api
-  SERVICE_NAME: shop-sync-api
+  REPOSITORY: novainvest
+  IMAGE_NAME: nova-invest-api
+  SERVICE_NAME: nova-invest-api
   REGION: europe-west4
 
 jobs:
@@ -85,6 +85,11 @@ jobs:
         image: '${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}'
         env_vars: |
           DATABASE_URL=${{ secrets.NEON_DATABASE_URL }}
+          OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY }}
+          NEWS_API_KEY=${{ secrets.NEWS_API_KEY }}
+          FINNHUB_API_KEY=${{ secrets.FINNHUB_API_KEY }}
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
         flags: '--allow-unauthenticated'
 
     # 5. Output the Cloud Run URL

@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "subscription_tier" varchar(50) DEFAULT 'free' NOT NULL;

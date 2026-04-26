@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "nodemon src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx migrate.ts",
     "db:push": "drizzle-kit push"
   },
   "keywords": [],
@@ -15,20 +17,30 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "axios": "^1.14.0",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
-    "pg": "^8.20.0"
+    "google-auth-library": "^10.6.2",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.20.0",
+    "soap": "^1.9.1",
+    "yahoo-finance2": "^3.14.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.5.0",
     "@types/pg": "^8.20.0",
+    "@types/soap": "^0.18.0",
     "drizzle-kit": "^0.31.10",
     "eslint": "^10.1.0",
+    "nodemon": "^3.1.14",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.2"
