@@ -182,11 +182,19 @@ app.post('/api/chats', authenticate, async (req: any, res: any) => {
 
 // 3. Delete a chat session
 app.delete('/api/chats/:id', authenticate, async (req: any, res: any) => {
+  const chatId = parseInt(req.params.id);
   try {
-    await db.delete(chats)
-      .where(and(eq(chats.id, parseInt(req.params.id)), eq(chats.userId, req.user.userId)));
+    const result = await db.delete(chats)
+      .where(and(eq(chats.id, chatId), eq(chats.userId, req.user.userId)))
+      .returning();
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Chat not found or unauthorized' });
+    }
+
     res.json({ message: 'Chat deleted' });
   } catch (error: any) {
+    console.error("Delete Error:", error);
     res.status(500).json({ error: error.message });
   }
 });
