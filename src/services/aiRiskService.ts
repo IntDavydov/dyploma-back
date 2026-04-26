@@ -10,7 +10,7 @@ export const aiRiskService = {
     }
 
     const companyData = await researchService.getCompanyInfo(symbol);
-    const headlines = companyData.news.map((n: any) => n.title);
+    const headlines = (companyData as any).news?.map((n: any) => n.title) || [];
     
     if (headlines.length === 0) {
       return {

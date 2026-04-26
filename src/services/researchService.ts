@@ -78,9 +78,9 @@ export const researchService = {
 
   async getTopCompanies(page: number = 1, limit: number = 20) {
     const cacheKey = 'research:top_100';
-    let results = await this.getFromCache(cacheKey);
+    let results: any = await this.getFromCache(cacheKey) || [];
 
-    if (!results) {
+    if (results.length === 0) {
       try {
         const quotes = await yahooFinance.quote(POPULAR_SYMBOLS);
         results = quotes.map(q => ({

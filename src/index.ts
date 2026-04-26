@@ -8,7 +8,7 @@ import { portfolioService } from './services/portfolioService.js';
 import { aiChatService } from './services/aiChatService.js';
 import { aiRiskService } from './services/aiRiskService.js';
 import { chatHistory, transactions, chats, users } from './db/schema.js';
-import { eq, asc, count } from 'drizzle-orm';
+import { eq, asc, count, and } from 'drizzle-orm';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -83,7 +83,7 @@ app.get('/api/research', async (req: express.Request, res: express.Response) => 
 
 app.get('/api/research/:symbol', async (req: express.Request, res: express.Response) => {
   try {
-    const data = await researchService.getCompanyInfo(req.params.symbol.toUpperCase());
+    const data = await researchService.getCompanyInfo((req.params.symbol as string).toUpperCase());
     res.json(data);
   } catch (error: any) {
     res.status(404).json({ error: error.message });
@@ -92,7 +92,7 @@ app.get('/api/research/:symbol', async (req: express.Request, res: express.Respo
 
 app.get('/api/risk/:symbol', async (req: express.Request, res: express.Response) => {
   try {
-    const data = await aiRiskService.analyzeRisk(req.params.symbol.toUpperCase());
+    const data = await aiRiskService.analyzeRisk((req.params.symbol as string).toUpperCase());
     res.json(data);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
@@ -184,8 +184,7 @@ app.post('/api/chats', authenticate, async (req: any, res: any) => {
 app.delete('/api/chats/:id', authenticate, async (req: any, res: any) => {
   try {
     await db.delete(chats)
-      .where(eq(chats.id, parseInt(req.params.id)))
-      .where(eq(chats.userId, req.user.userId));
+      .where(and(eq(chats.id, parseInt(req.params.id)), eq(chats.userId, req.user.userId)));
     res.json({ message: 'Chat deleted' });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
